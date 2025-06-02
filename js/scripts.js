@@ -1,8 +1,8 @@
 const pokemonList = [
   {
-    name: "Bulbasaur",
-    height: 7,
-    types: ["grass", "poison"],
+    name: "Bulbasaur", //Pokémon name
+    height: 7, //Pokemon height
+    types: ["grass", "poison"], //Pokemon types
   },
   {
     name: "Charmander",
@@ -15,3 +15,6 @@ const pokemonList = [
     types: ["water"],
   },
 ];
+pokemonList.forEach(function (pokemon) {
+  console.log(`${pokemon.name} (height: ${pokemon.height})`);
+});
