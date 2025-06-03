@@ -34,26 +34,37 @@ ul#pokemon-list li {
 ul#pokemon-list li:hover {
   transform: scale(1.03);
 }
-/* Section heading */
-h2 {
-  color: #222;
-  margin-bottom: 1rem;
-}
-
-/* Add spacing and a soft box feel to each Pokémon entry */
-div.pokemon-entry {
-  background-color: #ffffff;
+/* Style for the Pokémon buttons */
+.pokemon-button {
+  background-color: #ef5350;
+  color: white;
+  border: none;
+  border-radius: 12px;
   padding: 10px 16px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  width: 300px;
-  text-align: left;
+  margin: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* Style for the "Wow!" label */
-span.big {
-  color: crimson;
+.pokemon-button:hover {
+  background-color: #0a0a0a;
+}
+
+/* Optional: Center the button list */
+.pokemon-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Style for loading message */
+.loading-message {
+  font-size: 18px;
+  color: #333;
   font-weight: bold;
-  margin-left: 8px;
+  text-align: center;
+  margin-top: 1rem;
 }

@@ -1,9 +1,5 @@
 const pokemonRepository = (function () {
-  const pokemonList = [
-    { name: "Bulbasaur", height: 7, types: ["grass", "poison"] },
-    { name: "Charmander", height: 6, types: ["fire"] },
-    { name: "Squirtle", height: 5, types: ["water"] },
-  ];
+  const pokemonList = [];
 
   function add(pokemon) {
     pokemonList.push(pokemon);
@@ -28,30 +24,79 @@ const pokemonRepository = (function () {
     list.appendChild(listItem);
   }
   function showDetails(pokemon) {
-    console.log(pokemon);
+    pokemonRepository.loadDetails(pokemon).then(function () {
+      console.log("Name:", pokemon.name);
+      console.log("Height:", pokemon.height);
+      console.log("Types:", pokemon.types.join(", "));
+      console.log("Image URL:", pokemon.imageUrl);
+    });
+  }
+
+  // Load the Pokémon list from the API
+  function loadList() {
+    showLoadingMessage();
+    return fetch("https://pokeapi.co/api/v2/pokemon/?limit=150")
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (json) {
+        hideLoadingMessage();
+        json.results.forEach(function (item) {
+          const pokemon = {
+            name: item.name,
+            detailsUrl: item.url,
+          };
+          add(pokemon);
+        });
+      })
+      .catch(function (e) {
+        hideLoadingMessage();
+        console.error("Error loading Pokémon list:", e);
+      });
+  }
+  function loadDetails(pokemon) {
+    showLoadingMessage();
+    return fetch(pokemon.detailsUrl)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (details) {
+        hideLoadingMessage();
+        pokemon.imageUrl = details.sprites.front_default;
+        pokemon.height = details.height;
+        pokemon.types = details.types.map((type) => type.type.name);
+      })
+      .catch(function (e) {
+        hideLoadingMessage();
+        console.error("Error loading Pokémon details:", e);
+      });
+  }
+  function showLoadingMessage() {
+    const loadingMessage = document.createElement("p");
+    loadingMessage.innerText = "Loading Pokémon...";
+    loadingMessage.classList.add("loading-message");
+    document.body.appendChild(loadingMessage);
+  }
+
+  function hideLoadingMessage() {
+    const loadingMessage = document.querySelector(".loading-message");
+    if (loadingMessage) {
+      loadingMessage.remove();
+    }
   }
 
   return {
     add: add,
     getAll: getAll,
     addListItem: addListItem,
+    loadList: loadList,
+    loadDetails: loadDetails,
   };
 })();
 
-// Loop through all Pokémon and add them to the page as buttons
-pokemonRepository.getAll().forEach(function (pokemon) {
-  pokemonRepository.addListItem(pokemon);
-});
-
-// Display the Pokémon list using getAll() and forEach()
-document.write("<h2>Pokémon List</h2>");
-
-pokemonRepository.getAll().forEach(function (pokemon) {
-  let displayText = `${pokemon.name} (height: ${pokemon.height})`;
-
-  if (pokemon.height > 6) {
-    displayText += ` <span class="big">- Wow, that’s massive!</span>`;
-  }
-
-  document.write(`<div class="pokemon-entry">${displayText}</div>`);
+// After loading data from the API, display Pokémon as buttons
+pokemonRepository.loadList().then(function () {
+  pokemonRepository.getAll().forEach(function (pokemon) {
+    pokemonRepository.addListItem(pokemon);
+  });
 });
