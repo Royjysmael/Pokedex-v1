@@ -32,7 +32,7 @@ const pokemonRepository = (function () {
   // Load the Pokémon list from the API
   function loadList() {
     showLoadingMessage();
-    return fetch("https://pokeapi.co/api/v2/pokemon/?limit=150")
+    return fetch("https://pokeapi.co/api/v2/pokemon/?limit=151")
       .then(function (response) {
         return response.json();
       })
