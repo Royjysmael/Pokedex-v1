@@ -16,16 +16,17 @@ const pokemonList = [
   },
 ];
 document.write("<h2>Pokémon List</h2>");
+
 for (let i = 0; i < pokemonList.length; i++) {
   const pokemon = pokemonList[i];
-
   let displayText = `${pokemon.name} (height: ${pokemon.height})`;
 
   if (pokemon.height > 6) {
-    displayText += " - Wow, that's Massive!";
+    displayText += ` <span class="big">- Wow, that’s massive!</span>`;
   }
 
-  document.write(`${displayText}<br>`);
+  // Wrap each entry in a styled <div>
+  document.write(`<div class="pokemon-entry">${displayText}</div>`);
 }
 
 // Get the <ul> element from the page
