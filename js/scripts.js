@@ -25,10 +25,7 @@ const pokemonRepository = (function () {
   }
   function showDetails(pokemon) {
     pokemonRepository.loadDetails(pokemon).then(function () {
-      console.log("Name:", pokemon.name);
-      console.log("Height:", pokemon.height);
-      console.log("Types:", pokemon.types.join(", "));
-      console.log("Image URL:", pokemon.imageUrl);
+      showModal(pokemon);
     });
   }
 
@@ -64,6 +61,7 @@ const pokemonRepository = (function () {
         hideLoadingMessage();
         pokemon.imageUrl = details.sprites.front_default;
         pokemon.height = details.height;
+        pokemon.weight = details.weight;
         pokemon.types = details.types.map((type) => type.type.name);
       })
       .catch(function (e) {
@@ -84,6 +82,70 @@ const pokemonRepository = (function () {
       loadingMessage.remove();
     }
   }
+  function showModal(pokemon) {
+    const modalContainer = document.querySelector("#modal-container");
+
+    // Clear existing modal content
+    modalContainer.innerHTML = "";
+
+    // Create modal content wrapper
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    // Create content elements
+    const closeButton = document.createElement("button");
+    closeButton.classList.add("modal-close");
+    closeButton.innerText = "×";
+    closeButton.addEventListener("click", hideModal);
+
+    const nameElement = document.createElement("h1");
+    nameElement.innerText = pokemon.name;
+
+    const heightElement = document.createElement("p");
+    heightElement.innerText = `Height: ${pokemon.height}`;
+
+    const weightElement = document.createElement("p");
+    weightElement.innerText = `Weight: ${pokemon.weight}`;
+
+    const typesElement = document.createElement("p");
+    typesElement.innerText = `Type: ${pokemon.types.join(", ")}`;
+
+    const imageElement = document.createElement("img");
+    imageElement.src = pokemon.imageUrl;
+    imageElement.alt = pokemon.name;
+    imageElement.classList.add("modal-image");
+
+    // Append elements
+    modal.appendChild(closeButton);
+    modal.appendChild(nameElement);
+    modal.appendChild(heightElement);
+    modal.appendChild(weightElement);
+    modal.appendChild(typesElement);
+    modal.appendChild(imageElement);
+
+    modalContainer.appendChild(modal);
+    modalContainer.classList.remove("hidden");
+  }
+
+  function hideModal() {
+    const modalContainer = document.querySelector("#modal-container");
+    modalContainer.classList.add("hidden");
+  }
+
+  // Allow closing modal with Esc key or click outside
+  window.addEventListener("keydown", function (e) {
+    const modalContainer = document.querySelector("#modal-container");
+    if (e.key === "Escape" && !modalContainer.classList.contains("hidden")) {
+      hideModal();
+    }
+  });
+
+  window.addEventListener("click", function (e) {
+    const modalContainer = document.querySelector("#modal-container");
+    if (e.target === modalContainer) {
+      hideModal();
+    }
+  });
 
   return {
     add: add,
