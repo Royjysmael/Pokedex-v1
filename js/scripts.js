@@ -15,6 +15,18 @@ const pokemonList = [
     types: ["water"],
   },
 ];
+document.write("<h2>Pokémon List</h2>");
+for (let i = 0; i < pokemonList.length; i++) {
+  const pokemon = pokemonList[i];
+
+  let displayText = `${pokemon.name} (height: ${pokemon.height})`;
+
+  if (pokemon.height > 6) {
+    displayText += " - Wow, that's Massive!";
+  }
+
+  document.write(`${displayText}<br>`);
+}
 
 // Get the <ul> element from the page
 const listElement = document.getElementById("pokemon-list");
