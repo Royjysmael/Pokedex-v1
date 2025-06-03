@@ -12,12 +12,36 @@ const pokemonRepository = (function () {
   function getAll() {
     return pokemonList;
   }
+  function addListItem(pokemon) {
+    const list = document.querySelector(".pokemon-list");
+    const listItem = document.createElement("li");
+    const button = document.createElement("button");
+
+    button.innerText = pokemon.name;
+    button.classList.add("pokemon-button");
+
+    button.addEventListener("click", function () {
+      showDetails(pokemon);
+    });
+
+    listItem.appendChild(button);
+    list.appendChild(listItem);
+  }
+  function showDetails(pokemon) {
+    console.log(pokemon);
+  }
 
   return {
     add: add,
     getAll: getAll,
+    addListItem: addListItem,
   };
 })();
+
+// Loop through all Pokémon and add them to the page as buttons
+pokemonRepository.getAll().forEach(function (pokemon) {
+  pokemonRepository.addListItem(pokemon);
+});
 
 // Display the Pokémon list using getAll() and forEach()
 document.write("<h2>Pokémon List</h2>");
