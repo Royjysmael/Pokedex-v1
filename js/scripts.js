@@ -12,26 +12,52 @@ const pokemonRepository = (function () {
     return pokemonList;
   }
 
-  // === Add List Item to List Group ===
+  // === Add List Item to Card Layout ===
   function addListItem(pokemon) {
     const listGroup = document.querySelector(".pokemon-list");
 
     const col = document.createElement("div");
     col.classList.add("col-12", "col-sm-6", "col-md-4", "col-lg-3");
 
-    const listItem = document.createElement("div");
-    listItem.classList.add(
-      "list-group-item",
-      "list-group-item-action",
-      "text-center"
-    );
-    listItem.innerText = capitalize(pokemon.name);
+    const card = document.createElement("div");
+    card.classList.add("card", "h-100", "shadow-sm");
 
-    listItem.addEventListener("click", function () {
+    const img = document.createElement("img");
+    img.src = pokemon.imageUrl;
+    img.alt = `${pokemon.name} image`;
+    img.classList.add("card-img-top", "p-3");
+
+    const cardBody = document.createElement("div");
+    cardBody.classList.add("card-body", "text-center");
+
+    const title = document.createElement("h5");
+    title.classList.add("card-title");
+    title.innerText = capitalize(pokemon.name);
+
+    const typeContainer = document.createElement("div");
+    typeContainer.classList.add("mb-2");
+
+    // Add type badges
+    if (pokemon.types && pokemon.types.length > 0) {
+      pokemon.types.forEach((type) => {
+        const badge = document.createElement("span");
+        badge.innerText = capitalize(type);
+        badge.classList.add("type-badge", `type-${type.toLowerCase()}`);
+        typeContainer.appendChild(badge);
+      });
+    }
+
+    cardBody.appendChild(title);
+    cardBody.appendChild(typeContainer);
+    card.appendChild(img);
+    card.appendChild(cardBody);
+
+    // Add click event for modal
+    card.addEventListener("click", function () {
       showDetails(pokemon);
     });
 
-    col.appendChild(listItem);
+    col.appendChild(card);
     listGroup.appendChild(col);
   }
 
@@ -44,8 +70,6 @@ const pokemonRepository = (function () {
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
       showModal(pokemon);
-
-      // Show the Bootstrap modal
       const modalElement = document.getElementById("pokemonModal");
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
@@ -118,12 +142,20 @@ const pokemonRepository = (function () {
     modalTitle.innerText = capitalize(pokemon.name);
     modalHeight.innerText = `Height: ${pokemon.height}`;
     modalWeight.innerText = `Weight: ${pokemon.weight}`;
-    modalTypes.innerText = `Type: ${pokemon.types.join(", ")}`;
     modalImage.src = pokemon.imageUrl;
     modalImage.alt = pokemon.name;
+
+    // Clear previous types
+    modalTypes.innerHTML = "";
+
+    pokemon.types.forEach((type) => {
+      const badge = document.createElement("span");
+      badge.innerText = capitalize(type);
+      badge.classList.add("type-badge", `type-${type.toLowerCase()}`);
+      modalTypes.appendChild(badge);
+    });
   }
 
-  // === Return Public Methods ===
   return {
     add,
     getAll,
@@ -133,16 +165,16 @@ const pokemonRepository = (function () {
   };
 })();
 
-// === Render Pokémon List ===
 function renderPokemonList(list = pokemonRepository.getAll()) {
   const listGroup = document.querySelector(".pokemon-list");
   listGroup.innerHTML = "";
   list.forEach((pokemon) => {
-    pokemonRepository.addListItem(pokemon);
+    pokemonRepository.loadDetails(pokemon).then(() => {
+      pokemonRepository.addListItem(pokemon);
+    });
   });
 }
 
-// === Load and Initialize ===
 pokemonRepository.loadList().then(function () {
   renderPokemonList();
 });

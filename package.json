@@ -1,0 +1,24 @@
+{
+  "name": "pokedex",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A responsive web application that displays a list of Pokémon using data from the [PokéAPI](https://pokeapi.co/). Users can click a Pokémon to view its details (name, height, weight, type, and image) in a modal window.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Royjysmael/Pokedex-v1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Royjysmael/Pokedex-v1/issues"
+  },
+  "homepage": "https://github.com/Royjysmael/Pokedex-v1#readme",
+  "devDependencies": {
+    "eslint": "^9.28.0"
+  }
+}
