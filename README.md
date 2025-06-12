@@ -31,6 +31,14 @@ A simple Pokédex web application that displays a list of the first 151 Pokémon
 
 ---
 
+## Screenshot
+
+![Modal Preview](img/PokedexModal.pngpokedexModal.png)  
+_Modal showing Pokémon details_
+
+![UI Preview](img/PokedexSS1.pngPokedexSS1.png)  
+_Main UI with Pokémon cards_
+
 ## Project Reflection
 
 ### What was your role for this project and what tasks did you face?
