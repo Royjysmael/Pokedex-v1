@@ -139,11 +139,19 @@ ul#pokemon-list li:hover {
   max-width: 150px;
   height: auto;
 }
-/* Hover effect for Pokémon list items */
+/* === Hover effect for Pokémon list items === */
 .list-group-item:hover {
   background-color: #ff0202;
   cursor: pointer;
   transition: background-color 0.2s ease;
+}
+
+.card ul {
+  padding-left: 0;
+  margin-top: 10px;
+}
+.card li {
+  font-size: 0.85rem;
 }
 .card {
   transition: transform 0.2s, box-shadow 0.2s;

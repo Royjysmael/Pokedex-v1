@@ -64,12 +64,26 @@
           </ul>
         </div>
       </div>
+      <form class="d-flex ms-3" role="search">
+        <input
+          id="searchInput"
+          class="form-control"
+          type="search"
+          placeholder="Search by name, type, or #"
+          aria-label="Search"
+        />
+      </form>
     </nav>
 
     <!-- Pokémon List in Grid Layout -->
     <div class="container mt-5">
       <div class="row g-3 pokemon-list"></div>
     </div>
+
+    <!-- No results found text-->
+    <p class="no-results text-center mt-4 text-muted" style="display: none">
+      No Pokémon found.
+    </p>
 
     <!-- Modal -->
     <div
@@ -92,12 +106,17 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body text-center"></div>
-          <div class="modal-body">
+
+          <div class="modal-body text-center">
+            <img class="modal-image mb-3" src="" alt="Pokémon Image" />
+            <p class="modal-description"></p>
+            <p class="modal-types"></p>
             <p class="modal-height"></p>
             <p class="modal-weight"></p>
-            <p class="modal-types"></p>
-            <img class="modal-image" src="" alt="Pokémon Image" />
+            <div class="modal-stats">
+              <h5 class="modal-stats-title">Stats</h5>
+              <ul class="modal-stats-list list-unstyled small"></ul>
+            </div>
           </div>
         </div>
       </div>
